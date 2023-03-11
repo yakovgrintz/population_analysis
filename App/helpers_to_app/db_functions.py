@@ -1,6 +1,7 @@
 import json
 
 import mysql.connector
+import pandas as pd
 
 class func_to_db:
     @staticmethod
@@ -10,3 +11,7 @@ class func_to_db:
             config = json.load(f)
         mydb = mysql.connector.connect(**config)
         return mydb
+    @staticmethod
+    def run_sql_query_to_df(sql_query):
+        mydb = func_to_db.connect_to_db()
+        return pd.read_sql_query(sql=sql_query, con=mydb)

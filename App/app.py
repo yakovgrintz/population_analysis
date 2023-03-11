@@ -20,9 +20,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.SOLAR])
 app.layout = html.Div(children=[
     html.H1(children='Population Analysis Dashboard', style={'textAlign': 'center'}),
 
-    html.Div(children='''
-        Dash: A web application framework for your data.
-    '''),
+
     html.Div(id='select data to present', style={'textAlign': 'center'}, children=[
         dcc.Dropdown(
             id='select year',
@@ -48,7 +46,9 @@ def update_graph_data(value):
         dcc.Graph(id='avg. height',
                   figure=Graphs.avg_height(value)),
         dcc.Graph(id='religion_yishuv',
-                  figure=Graphs.religion_yishuv(value))
+                  figure=Graphs.religion_yishuv(value)),
+        dcc.Graph(id='construct_comitee',
+                  figure=Graphs.construct_comitee(value))
     ]
     return children
 
