@@ -1,5 +1,5 @@
-create schema IF NOT EXISTS elect_result;
-use elect_result;
+create schema IF NOT EXISTS israel_population;
+use israel_population;
 create table if not exists parties(
     id int auto_increment primary key,
     name_of_party varchar(100) not null,

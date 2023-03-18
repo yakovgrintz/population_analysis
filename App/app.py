@@ -1,9 +1,7 @@
-import json
-import mysql.connector
-from dash import Dash, html, dcc, Input, Output, dash_table,State
-import plotly.express as px
+from dash import Dash, html, dcc, Input, Output, dash_table, State
 import dash_bootstrap_components as dbc
-import pandas as pd
+
+from App.helpers_to_app.dashboards import create_dashboards
 from helpers_to_app.create_table_and_graphs import Table_func_create
 from helpers_to_app.create_table_and_graphs import Graphs
 from helpers_to_app.db_functions import func_to_db
@@ -18,39 +16,28 @@ options = [{'label': row[0], 'value': row[0]} for row in cursor.fetchall()]
 mydb.close()
 app = Dash(__name__, external_stylesheets=[dbc.themes.SOLAR])
 app.layout = html.Div(children=[
-    html.H1(children='Population Analysis Dashboard', style={'textAlign': 'center'}),
-
+    html.H1(children=' Israel Population Analysis Dashboard', style={'textAlign': 'center'}),
+    html.P(["Welcome to my dashboard.", html.Br(),
+            "This dashboard will present & analyze data from CBS of israel.", html.Br(),
+            "please select year of data to start:"], style={'textAlign': 'center'}),
 
     html.Div(id='select data to present', style={'textAlign': 'center'}, children=[
         dcc.Dropdown(
             id='select year',
             options=options
         ),
-        html.Div(id='table of data')
+        html.Div(id='basic dashboard', style={'textAlign': 'center', 'width': '100%', 'height': '100%'})
 
     ]),
-    html.Div(id='Graph of data')
+
 ])
 
 
-@app.callback(Output('table of data', 'children'),
-               Input('select year', 'value')
+@app.callback(Output('basic dashboard', 'children'),
+              Input('select year', 'value')
               )
-def update_data_and_Graph(value):
-
-    return Table_func_create.table_technical_settlement_information(value)
-@app.callback(Output('Graph of data', 'children'),
-               Input('select year', 'value'))
-def update_graph_data(value):
-    children = [
-        dcc.Graph(id='avg. height',
-                  figure=Graphs.avg_height(value)),
-        dcc.Graph(id='religion_yishuv',
-                  figure=Graphs.religion_yishuv(value)),
-        dcc.Graph(id='construct_comitee',
-                  figure=Graphs.construct_comitee(value))
-    ]
-    return children
+def update_basic_dashboard(value):
+    return create_dashboards.create_basic_dashboards(value)
 
 
 if __name__ == '__main__':
