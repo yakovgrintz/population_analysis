@@ -1,9 +1,11 @@
+import json
 
 import pandas as pd
 from sqlalchemy import create_engine
-
-engine = create_engine('mysql+mysqlconnector://root:****@localhost/elect_result')
-
+with open('config.json', 'r') as f:
+    config = json.load(f)
+conn_str = f'mysql+mysqlconnector://{config["user"]}:{config["password"]}@{config["host"]}/{config["database"]}'
+engine = create_engine(conn_str)
 vaada_data = pd.read_csv('Data/vaada.csv')
 vaada_data = vaada_data.dropna()
 vaada_data['סמל הוועדה'] = vaada_data['סמל הוועדה'].astype(int)
