@@ -6,7 +6,7 @@ import pandas as pd
 class func_to_db:
     @staticmethod
     def connect_to_db():
-        with open('C:\\Users\\User\\PycharmProjects\\Population analysis\\config.json'
+        with open('../config.json'
                   ) as f:
             config = json.load(f)
         mydb = mysql.connector.connect(**config)
